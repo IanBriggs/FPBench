@@ -11,6 +11,7 @@
          (format "_~a_" (char->integer char))))
    ""))
 
+; "type" here means precision
 (define (application->c type operator args)
   (match (cons operator args)
     [(list '- a)
@@ -68,7 +69,7 @@
   name*)
 
 (define (expr->c expr #:names [names #hash()] #:type [type 'binary64] #:indent [indent "\t"])
-  ;; Takes in an expression. Returns an expression and a new set of names
+  ;; Takes an FPCore expression, returns a C expression as a string.
   (match expr
     [`(let ([,vars ,vals] ...) ,body)
      (define vars* (map gensym vars))
