@@ -75,7 +75,7 @@
     [`(,(? operator? operator) ,args ...)
      (define args*
        (map (λ (arg) (expr->imp out! arg names)) args))
-     `(,operator ,args*)]
+     `(,operator ,@args*)]
     [(? constant?)
      expr]
     [(? symbol?)
@@ -101,4 +101,5 @@
    #:args ()
    (port-count-lines! (current-input-port))
    (for ([expr (in-port (curry read-fpcore "stdin"))] [n (in-naturals)])
-     (pretty-print (compile-program expr)))))
+     (*names* (mutable-set))
+     (pretty-print (compile-program expr) (current-output-port) 1))))
